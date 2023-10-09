@@ -1,0 +1,25 @@
+# This is a title
+
+## Intro
+
+I can type words here. Some of them can be *italic*. Some of them can be **bold**
+
+Code Appears
+`356 <- y`
+
+This one might need a footnote.^[sources are important]
+
+What did I do this morning? Let's use a list.
+
+1. I got out of bed
+2. I went to the bathroom
+3. I hugged my dogs
+4. I let my dogs out
+5. I made their breakfast and mine
+
+    -They have kibble
+
+    -I had a croissant
+
+6. I sat down at my computer
+

@@ -1,0 +1,131 @@
+---
+title: "ICT_LIS_661_Project_2"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Welcome to Code Chunks!
+
+Our last project `.Rmd` file introduced but didn't actually use code chunks, so it's worth touching on those again before we dive back into the project. 
+
+Remember that R Markdown is a way for data scientists to share their code **and** write up their research. Regular Markdown features help data scientists format their regular writing, and then *code chunks* display—and run—code alongside writing and commentary.
+
+Here's what a code chunk looks like:
+
+```{r}
+1 + 1
+```
+
+When the `.Rmd` document is knit to HTML, not only does the Markdown stuff get formatted, but all of these code chunks are run, so that the code itself **and** the results will appear in the final document. Pretty nifty!
+
+That said, it's usually better to run the code before you knit the file—you know, to make sure the code works properly before you publish it. In that case, you can hit the green "play" button in the top right of the code chunk, and the code will run and display the results—not in the usual console, but in a mini-console attached to the code itself. Try it out on the code-chunk above. You'll need to run your own code to test it as you work with `.Rmd` documents in this class.
+
+# Welcome to Project 2!
+
+Before moving on, please make a copy of this file and rename it in a way that makes a clear distinction between the original file and the file you'll eventually submit.
+
+> Under the headers below, I'll provide you with certain instructions, all of them formatted as blockquotes, like this paragraph is. Underneath each set of blockquoted instructions, you should write a (non-blockquoted) response to any questions I ask and fill out any code chunks as I instruct you. At the very end of this document, I'll provide instructions for *knitting* and submitting the `.Rmd` to Canvas.
+
+## Project 2, Part 1: Your Dataset [4 points]
+
+> For this project, you will need to identify a dataset with at least 100 observations and 5 variables. A dataset with at least 1,000 observations and 10 variables would be even better—but not necessary. It is fine for this to be a dataset that you have used previously in this class. This does not need to be a publicly available dataset, but please ensure that you can use the dataset legally and ethically. Store the data somewhere in your GitHub repository for this class.
+
+> In the code chunk below, please load the dataset into this document. (Keep in mind that you can—and may need to—load packages as part of this or any other code chunk; however, please do not try to install any packages here). [1 point]
+
+```{r}
+library(tidyverse)
+library(here)
+childrens_mythology <- read_csv(here("activity_data", "childrens_mythology.csv"))
+```
+
+> Now that you've loaded the dataset, please tell me some about it. Does it have a title? If not, what title would you give it? What reference or citation information (including a public URL, if applicable) can you provide about the dataset? Who created the dataset and when? How did they create it? [1 point]
+
+Cultural Authenticity in Children's Mythology Books
+I created the data by examining the children's books at my library that fell under the 398.2 call number. Author, Title, Call Number, Cumulative Circulation, and Last Circulation date were all obtained from a catalog report. I added the Date column from the catalog data, and then determined the Author's Cultural Identity from information on the book flaps and supplementary research, the Source Note Score from a published article and also the book flaps and interior material. I used those two to give me the Tier Score column. Region and Country were determined by the book jacket, flaps, and interior information. Award status was determined through consulting lists of award winners- Caldecott, Newbery, and Pura Belpre, Coretta Scott King. Fiction or Non Fiction was determined by looking at the book in the catalog of my library. Weeding columns were marked if the book was weeded for condition or authenticity concerns. The Explore column was a shorthand way for me to look at the books that were from historically unempowered groups.
+
+
+> What is your interest in this dataset? In general terms, what would you like to know about it? More specifically, what are some possible research questions that you could ask? [1 point]
+
+I was helping with weeding at my library and noticed we have a large mythology section that is rarely touched. I had read an article last semester about the cultural authenticity of mythology and I was inspired to examine our collection.
+
+I want to look at how age relates to award status (are we more likely to keep an older book just because it has won awards?), country and tier score (are some regions or countries more likely to have stories that have been appropriated by white people?). I also want to look at the regions represented in the collection by percent and compare them to census race and ethnicity data (how well does our collection reflect our community?)
+
+> As needed, perform any data cleaning (including "tidying" or "wrangling") on the data in the code chunk below. [1 point]
+
+```{r}
+study <- childrens_mythology %>%
+ filter(Explore == "1")
+```
+
+(pulling out that shorthand I mentioned to examine cultural authenticity of minoritized groups)
+
+## Project 2, Part 2: Summary Statistics [4 points]
+
+> In the code chunk below, write some code that provides a summary of your data. As you determine what code to write, consider the specific prompts below. As is typical for R, there are a number of ways to do this—*how* you do so is less important than *that* you do so. [1 point]
+
+```{r}
+childrens_mythology %>%
+ group_by(Region)
+```
+
+> How many observations and variables are in your dataset? [1 point]
+
+17 Variables
+
+429 observations
+
+> List and explain 3-5 of the most important quantitative variables. (The quantitative part will become important in the next step!) [1 point]
+
+Year
+
+Tier Score
+
+Source Note Score
+
+> Report on some key summary statistics for the 3-5 variables you identified above. What do those statistics tell you about those variables? [1 point]
+
+**Year:** Average year of publication, 2001; std deviation 13.19
+
+**Tier Score:** North America has 17 books with a Tier Score of 5, and 12 books with a Tier Score of 5
+
+**Source Note Score:** Average year of publication for each level of source note score (article was published in 1993)
+  0: 2000
+  1: NA
+  2: 1999
+  3: 2004
+  4: 2001
+  5: 1997
+  NA: 1996 (this was mostly books that were checked out so I couldn't score the source note)
+
+## Project 2, Part 3: Visualization [2 points]
+
+```{r}
+
+```
+
+> In the code chunk below, pick one or more of the variables in your dataset, choose an appropriate visualization for the variable(s), and carry that visualization out. [1 point]
+
+```{r}
+ggplot(data = study, mapping = aes(x = Date)) +
+     geom_histogram(binwidth = 5, color = "white")
+```
+
+> Here, explain what you were trying to learn about the data, what kind of plot you chose, why that plot is important for what you were trying to learn, and what the plot showed about the data. [1 point]
+
+I wanted to look at the age of the collection, and the histogram is a good way to look at how many books are in each year grouping (5 years). You can also see the weird 1924 outlier. You can see there are a few books from before 1980, many more from the 80s and 90s and a decrease in recent books. The 2010s is way less than the 1990s!
+
+
+# Submitting Project 2
+
+After you've completed all parts of this assignment to your satisfaction, click on the `Knit` button in the toolbar at the top of this pane. When/if prompted, please indicate that you wish to knit to an HTML file. Knitting to PDF or Word are fancy tricks but take some more setting up, and that's beyond the scope of this class. 
+
+After RStudio has finished knitting the file, it will bring it up in a special RStudio interface. You can use this interface to review the document and make sure that everything appears as you want. Then, however, you should navigate to the same folder where you have stored this `.Rmd` file, and you will find a `.html` file with the same name in that same folder. You can open that file to view this in your browser; more importantly, this is the file that you should submit to Canvas to complete this assignment.
+
+I cannot accept any submission of your work besides the knit `.html` file! If you are having trouble knitting, please get in touch with me instead of submitting the `.Rmd` file and hoping it will work instead. It won't. I don't have your data, I won't see your output, and I can't grade your work without either of those.
+
+Speaking of having your data, though, it would be nice to have access to all the work you've done in addition to the `.html` file. Please open GitHub desktop, navigate to your repository for this class, *commit* the changes that you've made in completing this project, and *push* those changes to GitHub. I will also ask you to do this if you need any help along the way.

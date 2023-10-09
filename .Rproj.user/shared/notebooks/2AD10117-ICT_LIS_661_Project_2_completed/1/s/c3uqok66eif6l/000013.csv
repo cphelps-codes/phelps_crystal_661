@@ -1,0 +1,2 @@
+"0","ggplot(data = study, mapping = aes(x = Date)) +"
+"0","     geom_histogram(binwidth = 5, color = ""white"")"
